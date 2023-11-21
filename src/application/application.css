@@ -1,0 +1,28 @@
+/*
+ * --first-color = #17252A
+ * --second-color = #2B7A78
+ * --third-color = #3AAFA9
+ * --fourth-color = #DEF2F1
+ * --fifth-color = #FEFFFF
+ */
+
+.leftMenuButton {
+	-fx-text-fill: #FEFFFF;
+	-fx-background-color: #2B7A78;
+}
+
+.leftMenuButton:hover {
+	-fx-background-color: #777777;
+}
+
+.leftMenuBar {
+	-fx-background-color: #35A5A5;
+}
+
+.mainGrid {
+	
+}
+
+.mainFrame {
+	-fx-background-color: #3AAFA9;
+}
