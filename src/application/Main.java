@@ -23,6 +23,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			//qweqweq
 			Parent root = FXMLLoader.load(getClass().getResource("MainMenu.fxml"));
 			Scene mainScene = new Scene(root);
 			mainScene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
