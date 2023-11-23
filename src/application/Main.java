@@ -26,8 +26,8 @@ public class Main extends Application {
 			Scene mainScene = ScenesInitializator.getMainScene();
 			
 			predStage = new Stage();
-			Scene picScene = new Scene(FXMLLoader.load(getClass().getResource("PredPic.fxml")), 400, 400);
-			this.initPredStage(predStage, picScene);
+			Scene predScene = ScenesInitializator.getPredScene();
+			this.initPredStage(predStage, predScene);
 			
 			
 			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {

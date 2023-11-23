@@ -6,6 +6,13 @@
  * --fifth-color = #FEFFFF
  */
 
+.leftMenuInteractButton {
+	-fx-background-image: url("/images/leftMenuInteractButton.png");
+	-fx-background-size: cover;
+	-fx-background-position: center;
+	-fx-background-color: #3AAFA9;
+}
+
 .leftMenuButton {
 	-fx-text-fill: #FEFFFF;
 	-fx-background-color: #2B7A78;
@@ -26,3 +33,4 @@
 .mainFrame {
 	-fx-background-color: #3AAFA9;
 }
+

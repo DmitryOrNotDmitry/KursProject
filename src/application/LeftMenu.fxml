@@ -7,7 +7,7 @@
 <VBox maxHeight="1.7976931348623157E308" maxWidth="100.0" minWidth="97.0" prefHeight="690.0" prefWidth="97.0" styleClass="leftMenuBar" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MenuController">
    <children>
       <Button fx:id="mainMenu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="45.0" styleClass="leftMenuButton" text="Главная" />
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" styleClass="leftMenuButton" text="Данные" />
+      <Button fx:id="dataTables" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDataTables" prefHeight="45.0" styleClass="leftMenuButton" text="Данные" />
       <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" styleClass="leftMenuButton" text="Диаграммы" />
       <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" styleClass="leftMenuButton" text="Справка" />
    </children>

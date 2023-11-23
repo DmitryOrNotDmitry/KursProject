@@ -17,7 +17,21 @@ public class ScenesInitializator {
 	private static Scene dataScene = null;
 	private static Scene diagramScene = null;
 	private static Scene infoScene = null;
+	private static Scene predScene = null;
 	
+	public static Scene getPredScene() {
+		Parent root;
+		if (predScene == null) {
+			try {
+				root = FXMLLoader.load(ScenesInitializator.class.getResource("PredPic.fxml"));
+				predScene = new Scene(root, 400, 400);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}				
+		}
+		
+		return predScene;
+	}
 	
 	public static Scene getMainScene() {
 		if (mainScene == null) {
@@ -36,7 +50,14 @@ public class ScenesInitializator {
 	
 	public static Scene getDataScene() {
 		if (dataScene == null) {
-			
+			Parent root;
+			try {
+				root = FXMLLoader.load(ScenesInitializator.class.getResource("DataTables.fxml"));
+				dataScene = new Scene(root);
+				dataScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return dataScene;
