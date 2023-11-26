@@ -65,7 +65,14 @@ public class ScenesInitializator {
 	
 	public static Scene getDiagramScene() {
 		if (diagramScene == null) {
-			
+			Parent root;
+			try {
+				root = FXMLLoader.load(ScenesInitializator.class.getResource("Diagrams.fxml"));
+				diagramScene = new Scene(root);
+				diagramScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return diagramScene;

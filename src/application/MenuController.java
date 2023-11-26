@@ -9,11 +9,18 @@ import javafx.stage.Stage;
 
 public class MenuController {
 
-	@FXML
+	 @FXML
     private Button dataTables;
-	
+
+    @FXML
+    private Button diagrams;
+
+    @FXML
+    private Button help;
+
     @FXML
     private Button mainMenu;
+
 
     @FXML
     private void initialize() {
@@ -40,6 +47,20 @@ public class MenuController {
 		}
     }
 
+    @FXML
+    void showDiagrams(ActionEvent event) {
+    	Scene currentScene = (Scene) diagrams.getScene();
+		Scene diagramScene = ScenesInitializator.getDiagramScene();
+		if (currentScene != diagramScene) {
+			Stage curStage = (Stage) currentScene.getWindow();
+			attachSceneToStage(curStage, diagramScene);
+		}
+    }
+
+    @FXML
+    void showHelp(ActionEvent event) {
+    	
+    }
     
     public void attachSceneToStage(Stage stage, Scene scene) {
     	double width = stage.getWidth();

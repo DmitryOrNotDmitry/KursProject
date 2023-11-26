@@ -8,7 +8,7 @@
    <children>
       <Button fx:id="mainMenu" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="45.0" styleClass="leftMenuButton" text="Главная" />
       <Button fx:id="dataTables" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDataTables" prefHeight="45.0" styleClass="leftMenuButton" text="Данные" />
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" styleClass="leftMenuButton" text="Диаграммы" />
-      <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="45.0" styleClass="leftMenuButton" text="Справка" />
+      <Button fx:id="diagrams" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showDiagrams" prefHeight="45.0" styleClass="leftMenuButton" text="Диаграммы" />
+      <Button fx:id="help" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showHelp" prefHeight="45.0" styleClass="leftMenuButton" text="Справка" />
    </children>
 </VBox>
