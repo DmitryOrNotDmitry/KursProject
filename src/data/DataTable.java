@@ -1,5 +1,6 @@
 package data;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,7 @@ public class DataTable {
 
 	private List<Column> columns;
 	private List<Row> rows;
+	private File file;
 	
 	public DataTable() {
 		columns = new ArrayList<>();
@@ -64,5 +66,18 @@ public class DataTable {
 		result.append("\n");
 		return result.toString();
 	}
+
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
+	}
+	
+	public boolean isLoaded() {
+		return columns.size() != 0;
+	}
+	
 	
 }

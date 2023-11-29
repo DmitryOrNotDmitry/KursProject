@@ -1,17 +1,11 @@
 package application;
 
 import java.io.File;
-import java.util.List;
-import java.util.Observable;
-import java.util.Random;
-import java.util.random.RandomGeneratorFactory;
 
 import data.CSVImporter;
-import data.Column;
 import data.DataTable;
 import data.DataTableAdapter;
 import data.Row;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,11 +14,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class DataController {
+
+	private DataTableAdapter dataTableAdapter;
+	
+	private String selectedDataTableName;
 
 	@FXML
     private TableView<Row> table;
@@ -37,13 +36,13 @@ public class DataController {
 
     @FXML
     private GridPane mainGrid;
-    
-    private DataTableAdapter dataTableAdapter;
 
     @FXML
     private void initialize() {
     	System.out.println("dataTableAdapter init");
     	dataTableAdapter = DataTableAdapter.getInstance();
+    	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
+		listDataTableNames.setItems(names);
     }
     
     @FXML
@@ -52,26 +51,22 @@ public class DataController {
 
         fileChooser.setTitle("Выберите файл");
 
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Текстовые файлы (*.csv)", "*.csv");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Таблицы данных (*.csv)", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
 
         File selectedFile = fileChooser.showOpenDialog((Stage) addTable.getScene().getWindow());
 
         if (selectedFile != null) {
-        	CSVImporter.importCSV(selectedFile.getAbsolutePath());
-        	DataTable dataTable = CSVImporter.getDataTable();
+        	
+        	DataTable dataTable = CSVImporter.importCSV(selectedFile.getAbsolutePath());
+        	dataTable.setFile(selectedFile);
         	fillTable(dataTable);
-        	Random rand = new Random();
-        	String name = "Name example" + rand.nextInt();
-        	dataTableAdapter.addDataTable(name.toString(), dataTable);
-        	ObservableList<String> names = FXCollections.observableArrayList();
-        	for (String name1 : dataTableAdapter.getAllDataTableNames()) {
-        		names.add(name1);
-        	}
+        	
+        	selectedDataTableName = selectedFile.getName();
+        	dataTableAdapter.addDataTable(selectedDataTableName, dataTable);
+        	
+        	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
     		listDataTableNames.setItems(names);
-    		System.out.println(dataTableAdapter.getAllDataTableNames().size());
-        } else {
-            System.out.println("Отменено пользователем.");
         }
     	
     }
@@ -91,6 +86,20 @@ public class DataController {
 		}
     	
     	table.setItems(data);
+    }
+    
+    @FXML
+    void selectDataTable(MouseEvent event) {
+    	String newName = listDataTableNames.getSelectionModel().getSelectedItem();
+    	if (newName.equals(selectedDataTableName)) {
+    		return;
+    	}
+    	selectedDataTableName = newName;
+    	DataTable dataTable = dataTableAdapter.getDataTable(selectedDataTableName);
+    	if (!dataTable.isLoaded()) {
+    		CSVImporter.importCSV(dataTable);
+    	}
+    	fillTable(dataTable);
     }
     
 

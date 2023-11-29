@@ -1,5 +1,10 @@
 package data;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +14,7 @@ public class DataTableAdapter {
 
 	private static DataTableAdapter dataTableAdapter;
 	
-	Map<String, DataTable> dataTables;
+	private Map<String, DataTable> dataTables;
 	
 	private DataTableAdapter() {
 		dataTables = new HashMap<>();
@@ -38,4 +43,21 @@ public class DataTableAdapter {
 		return result;
 	}
 	
+	public void writeObject(StringBuilder outBuffer) {
+        for (String name : this.getAllDataTableNames()) {
+        	outBuffer.append(name).append(";")
+        		.append(this.getDataTable(name).getFile().getAbsolutePath()).append("\n");
+        }
+    }
+
+	public void readObject(List<String> lines) {
+        for (String line : lines) {
+            DataTable dataTable = new DataTable();
+            String[] fields = line.split(";");
+            File file = new File(fields[1]);
+            dataTable.setFile(file);
+            this.addDataTable(fields[0], dataTable);
+        }
+    }
+    
 }
