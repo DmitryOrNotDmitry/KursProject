@@ -24,7 +24,7 @@ public class CSVImporter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.print(dataTable);
+        //System.out.print(dataTable);
     }
 	
 	public static DataTable getDataTable() {
