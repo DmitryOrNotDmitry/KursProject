@@ -36,13 +36,19 @@ public class DataController {
 
     @FXML
     private GridPane mainGrid;
+    
+    public DataController() {
+    	initialize();
+    }
 
     @FXML
     private void initialize() {
     	System.out.println("dataTableAdapter init");
     	dataTableAdapter = DataTableAdapter.getInstance();
     	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
-		listDataTableNames.setItems(names);
+		if (listDataTableNames != null) {
+			listDataTableNames.setItems(names);
+		}
     }
     
     @FXML
@@ -71,6 +77,15 @@ public class DataController {
     	
     }
     
+    public void loadDataTble(String name) {
+    	selectedDataTableName = name;
+    	DataTable dataTable = dataTableAdapter.getDataTable(selectedDataTableName);
+    	if (!dataTable.isLoaded()) {
+    		CSVImporter.importCSV(dataTable);
+    	}
+    	fillTable(dataTable);
+    }
+    
     private void fillTable(DataTable dataTable) {
     	table.getColumns().clear();
     	int len = dataTable.getColumns().size();
@@ -91,15 +106,10 @@ public class DataController {
     @FXML
     void selectDataTable(MouseEvent event) {
     	String newName = listDataTableNames.getSelectionModel().getSelectedItem();
-    	if (newName.equals(selectedDataTableName)) {
+    	if (newName == null || newName.equals(selectedDataTableName)) {
     		return;
     	}
-    	selectedDataTableName = newName;
-    	DataTable dataTable = dataTableAdapter.getDataTable(selectedDataTableName);
-    	if (!dataTable.isLoaded()) {
-    		CSVImporter.importCSV(dataTable);
-    	}
-    	fillTable(dataTable);
+    	loadDataTble(newName);
     }
     
 

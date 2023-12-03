@@ -37,14 +37,14 @@
                   <fx:include source="LeftMenuButtonInteract.fxml" />
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <ListView layoutX="64.0" layoutY="69.0" prefHeight="157.0" prefWidth="474.0" />
+                        <ListView fx:id="dataList" layoutX="64.0" layoutY="69.0" onMouseClicked="#redirectToDataTable" prefHeight="157.0" prefWidth="474.0" />
                         <Label layoutX="76.0" layoutY="51.0" text="Имеющиеся данные" AnchorPane.topAnchor="51.0" />
                         <Button fx:id="addTableButton" layoutX="14.0" layoutY="255.0" mnemonicParsing="false" text="Добавить" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <children>
-                        <ListView layoutX="64.0" layoutY="78.0" prefHeight="157.0" prefWidth="474.0" />
+                        <ListView fx:id="diagramList" layoutX="64.0" layoutY="78.0" onMouseClicked="#redirectToDiagram" prefHeight="157.0" prefWidth="474.0" />
                         <Button fx:id="addTableButton1" layoutX="14.0" layoutY="273.0" mnemonicParsing="false" text="Добавить" />
                         <Label layoutX="76.0" layoutY="60.0" text="Существующие диаграммы" />
                      </children>

@@ -29,7 +29,8 @@ public class CSVImporter {
                 dataTable.addRow(fields);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	System.out.println("File not exist - " + dataTable.getFile().getAbsolutePath());
+        	//e.printStackTrace();
         }
     }
 }

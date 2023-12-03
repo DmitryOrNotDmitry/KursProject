@@ -39,6 +39,10 @@ public class MenuController {
     
     @FXML
     void showDataTables(ActionEvent event) {
+    	showData(this.dataTables);
+    }
+    
+    public static void showData(Button dataTables) {
     	Scene currentScene = (Scene) dataTables.getScene();
 		Scene dataScene = ScenesInitializator.getDataScene();
 		if (currentScene != dataScene) {
@@ -62,7 +66,7 @@ public class MenuController {
     	
     }
     
-    public void attachSceneToStage(Stage stage, Scene scene) {
+    public static void attachSceneToStage(Stage stage, Scene scene) {
     	double width = stage.getWidth();
 		double height = stage.getHeight();
 		stage.setScene(scene);
