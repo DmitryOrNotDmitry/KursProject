@@ -24,7 +24,7 @@ public class MenuController {
 
     @FXML
     private void initialize() {
-    	System.out.print("menu");
+    	System.out.println("menu");
     }
     
     @FXML

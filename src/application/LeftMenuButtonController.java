@@ -41,7 +41,7 @@ public class LeftMenuButtonController {
     
 	@FXML
     private void initialize() {
-    	System.out.print("leftMenuInteract");
+    	System.out.println("leftMenuInteract");
     }
 	
 	private void animateLeftMenu(GridPane mainGrid) {

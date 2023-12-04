@@ -37,9 +37,6 @@ public class DataController {
     @FXML
     private GridPane mainGrid;
     
-    public DataController() {
-    	initialize();
-    }
 
     @FXML
     private void initialize() {
@@ -77,7 +74,7 @@ public class DataController {
     	
     }
     
-    public void loadDataTble(String name) {
+    public void loadDataTable(String name) {
     	selectedDataTableName = name;
     	DataTable dataTable = dataTableAdapter.getDataTable(selectedDataTableName);
     	if (!dataTable.isLoaded()) {
@@ -109,7 +106,7 @@ public class DataController {
     	if (newName == null || newName.equals(selectedDataTableName)) {
     		return;
     	}
-    	loadDataTble(newName);
+    	loadDataTable(newName);
     }
     
 

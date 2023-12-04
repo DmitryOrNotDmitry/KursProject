@@ -19,6 +19,9 @@ public class ScenesInitializator {
 	private static Scene infoScene = null;
 	private static Scene predScene = null;
 	
+	private static MainController mainController;
+	private static DataController dataController;
+	
 	public static Scene getPredScene() {
 		Parent root;
 		if (predScene == null) {
@@ -37,9 +40,11 @@ public class ScenesInitializator {
 		if (mainScene == null) {
 			Parent root;
 			try {
-				root = FXMLLoader.load(ScenesInitializator.class.getResource("MainMenu.fxml"));
+				FXMLLoader loader = new FXMLLoader(ScenesInitializator.class.getResource("MainMenu.fxml"));
+				root = loader.load();
 				mainScene = new Scene(root);
 				mainScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+				mainController = loader.getController();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -52,9 +57,11 @@ public class ScenesInitializator {
 		if (dataScene == null) {
 			Parent root;
 			try {
-				root = FXMLLoader.load(ScenesInitializator.class.getResource("DataTables.fxml"));
+				FXMLLoader loader = new FXMLLoader(ScenesInitializator.class.getResource("DataTables.fxml"));
+				root = loader.load();
 				dataScene = new Scene(root);
 				dataScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+				dataController = loader.getController();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -67,7 +74,8 @@ public class ScenesInitializator {
 		if (diagramScene == null) {
 			Parent root;
 			try {
-				root = FXMLLoader.load(ScenesInitializator.class.getResource("Diagrams.fxml"));
+				FXMLLoader loader = new FXMLLoader(ScenesInitializator.class.getResource("Diagrams.fxml"));
+				root = loader.load();
 				diagramScene = new Scene(root);
 				diagramScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
 			} catch (IOException e) {
@@ -84,6 +92,10 @@ public class ScenesInitializator {
 		}
 		
 		return infoScene;
+	}
+
+	public static DataController getDataController() {
+		return dataController;
 	}
 	
 }

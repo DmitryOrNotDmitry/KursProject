@@ -44,7 +44,7 @@ public class Main extends Application {
 			this.initPredStage(predStage, predScene);
 			
 			
-			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
+			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
 				predStage.close();
 				this.initMainStage(primaryStage, mainScene);
 	        }));

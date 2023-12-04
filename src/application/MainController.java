@@ -50,6 +50,7 @@ public class MainController {
 	@FXML
     void redirectToDataTable(MouseEvent event) {
 		MenuController.showData(addTableButton);
+		ScenesInitializator.getDataController().loadDataTable(dataList.getSelectionModel().getSelectedItem());
 		//dataController.loadDataTble(dataList.getSelectionModel().getSelectedItem());
     }
 
