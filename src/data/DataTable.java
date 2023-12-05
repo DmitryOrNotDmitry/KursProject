@@ -29,6 +29,10 @@ public class DataTable {
 		return rows;
 	}
 	
+	public List<Row> getRows(int start, int end) {
+		return rows.subList(start, end);
+	}
+	
 	public void addRow(Row row) {
 		rows.add(row);
 	}

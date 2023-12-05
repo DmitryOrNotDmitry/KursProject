@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -103,6 +104,15 @@
                                     <Color red="1.0" />
                                  </value>
                               </ColorPicker>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane fx:id="rowChooserContainer" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <Spinner fx:id="rowStart" editable="true" layoutX="29.0" layoutY="44.0" prefHeight="25.0" prefWidth="65.0" />
+                              <Label layoutX="74.0" layoutY="27.0" text="Строки" />
+                              <Spinner fx:id="rowEnd" editable="true" layoutX="121.0" layoutY="44.0" prefHeight="25.0" prefWidth="65.0" />
+                              <Label layoutX="14.0" layoutY="48.0" text="С" />
+                              <Label layoutX="100.0" layoutY="48.0" text="по" />
                            </children>
                         </AnchorPane>
                      </children></HBox>
