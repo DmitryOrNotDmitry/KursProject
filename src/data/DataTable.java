@@ -79,5 +79,12 @@ public class DataTable {
 		return columns.size() != 0;
 	}
 	
+	public List<String> getColumnNames() {
+		List<String> result = new ArrayList<>();
+		for (Column col : this.getColumns()) {
+			result.add(col.getName());
+		}
+		return result;
+	}
 	
 }

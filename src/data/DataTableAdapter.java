@@ -32,7 +32,11 @@ public class DataTableAdapter {
 	}
 	
 	public DataTable getDataTable(String name) {
-		return this.dataTables.get(name);
+		DataTable dataTable = this.dataTables.get(name);
+		if (!dataTable.isLoaded()) {
+			CSVImporter.importCSV(dataTable);
+		}
+		return dataTable;
 	}
 	
 	public List<String> getAllDataTableNames(){

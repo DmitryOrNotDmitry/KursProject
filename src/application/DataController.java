@@ -75,11 +75,7 @@ public class DataController {
     }
     
     public void loadDataTable(String name) {
-    	selectedDataTableName = name;
-    	DataTable dataTable = dataTableAdapter.getDataTable(selectedDataTableName);
-    	if (!dataTable.isLoaded()) {
-    		CSVImporter.importCSV(dataTable);
-    	}
+    	DataTable dataTable = dataTableAdapter.getDataTable(name);
     	fillTable(dataTable);
     }
     
