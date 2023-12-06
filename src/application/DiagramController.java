@@ -34,12 +34,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Path;
 import javafx.util.StringConverter;
 
 public class DiagramController {
 
 	private DataTableAdapter dataAdapter;
 	private String currentDataTableName;
+	private Diagrams currentDiagram;
 	
 	
     @FXML
@@ -82,6 +84,9 @@ public class DiagramController {
     private Spinner<Integer> rowStart;
     
     @FXML
+    private HBox diagramTypeContainer;
+    
+    @FXML
     private void initialize() {
     	dataAdapter = DataTableAdapter.getInstance();
     	ObservableList<String> names = FXCollections.observableArrayList(dataAdapter.getAllDataTableNames());
@@ -97,64 +102,29 @@ public class DiagramController {
 				public void handle(ActionEvent e) {
 					onTableNameClick(e.getSource());
 				}
-			});;
+			});
+		}
+		
+		for (Diagrams diagram : Diagrams.values()) {
+			Button button = new Button();
+			button.setText(diagram.getName());
+			button.setPrefWidth(80);
+			button.setMaxHeight(Double.MAX_VALUE);
+			diagramTypeContainer.getChildren().add(button);
+			HBox.setMargin(button, new Insets(10));
+			button.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					currentDiagram = Diagrams.getDiagramByName(((Button) e.getSource()).getText());
+					drawDiagram(dataAdapter.getDataTable(currentDataTableName));
+				}
+			});
 		}
 		
 		rowStart.valueProperty().addListener((a, b, c) -> { changeRows(b, c); });
 		rowEnd  .valueProperty().addListener((a, b, c) -> { changeRows(b, c); });
 		
-		//String tableName = "qwe.csv";
-		//DataTable dataTable = dataAdapter.getDataTable(tableName);
-		
-		//createLineDiagram(tableName, dataTable, dataTable.getColumnNames().indexOf("Год"), dataTable.getColumnNames().indexOf("ВВП"));
-    }
-    
-    private void createLineDiagram(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex) {
-    	if (xColumnIndex == -1 || yColumnIndex == -1) {
-    		return;
-    	}
-    	
-    	NumberAxis xAxis = new NumberAxis();
-        NumberAxis yAxis = new NumberAxis();
-
-        // Создание графика
-        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-
-        // Добавление данных в график
-        XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        for (Row row : dataTable.getRows(rowStart.getValue() - 1, rowEnd.getValue())) {
-        	int item1 = Integer.parseInt(row.getItem(xColumnIndex).getValue());
-        	if (min > item1)
-        		min = item1;
-        	if (max < item1)
-        		max = item1;
-        	int item2 = Integer.parseInt(row.getItem(yColumnIndex).getValue());
-        	dataSeries.getData().add(new XYChart.Data<>(item1, item2));
-        }
-
-        lineChart.getData().add(dataSeries);
-
-        // Настройка внешнего вида графика
-        lineChart.setTitle("График таблицы " + tableName);
-
-        xAxis.setLabel(dataTable.getColumns().get(xColumnIndex).getName());
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound((min - Math.abs(max - min) / 5) - 1);
-        //xAxis.setLowerBound((int) xAxis.getLowerBound() / 100 * 100);
-        
-        xAxis.setUpperBound((max + Math.abs(max - min) / 5) + 1);
-        //xAxis.setUpperBound((int) xAxis.getUpperBound() / 100 * 100);
-        
-        xAxis.setTickUnit(Math.abs(max - min) / 10);
-        
-        yAxis.setLabel(dataTable.getColumns().get(yColumnIndex).getName());
-
-        changeChartColor(lineChart, colorChooser.getValue());
-        
-        diagramContainer.setCenter(lineChart);
-
+		currentDiagram = Diagrams.AREA_CHART;
     }
     
     private void onTableNameClick(Object sender) {
@@ -176,20 +146,42 @@ public class DiagramController {
     		xAxisColumn.getSelectionModel().select(0);
         	yAxisColumn.getSelectionModel().select(1);
 
-        	createLineDiagram(tableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()));
+        	drawDiagram(dataTable);
+        	
     	}
-    	
-//    	xAxisColumnContainer.setMaxWidth(0);
-//    	xAxisColumnContainer.setMinWidth(0);
-//    	xAxisColumnContainer.setVisible(false);
     }
     
-    @FXML
+    private void drawDiagram(DataTable dataTable) {
+		if (currentDiagram == Diagrams.LINE_CHART) {
+			loadLineDiagram(dataTable);
+			return;
+		}
+		
+		if (currentDiagram == Diagrams.AREA_CHART) {
+			loadAreaDiagram(dataTable);
+			return;
+		}
+		
+		if (currentDiagram == Diagrams.BAR_CHART) {
+			loadBarDiagram(dataTable);
+			return;
+		}
+		
+		if (currentDiagram == Diagrams.BUBBLE_CHART) {
+			return;
+		}
+		
+		if (currentDiagram == Diagrams.PIE_CHART) {
+			return;
+		}
+	}
+
+	@FXML
     void changeAxisColumn(ActionEvent event) {
     	DataTable dataTable = dataAdapter.getDataTable(currentDataTableName);
     	if (xAxisColumn.getItems().size() >= 2) {
     		if (xAxisColumn.getSelectionModel().getSelectedIndex() != -1 && yAxisColumn.getSelectionModel().getSelectedIndex() != -1)
-        	createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()));
+    			drawDiagram(dataTable);
     	}
     }
     
@@ -204,23 +196,50 @@ public class DiagramController {
     }
     
     private void changeChartColor(XYChart<?, ?> chart, Color color) {
-    	String rgbColor = String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255), (int) (color.getBlue() * 255));
-    	String style = "-fx-stroke:" + rgbColor + ";";
-    	for (XYChart.Series<?, ?> series : chart.getData()) {
-    		Node line = series.getNode().lookup(".chart-series-line");
-    		if (line != null) {
-    			line.setStyle(style);
-    		}
-    	}
+    	currentDiagram.changeChartColor(chart, color);
     }
     
     void changeRows(Integer oldValue, Integer newValue) {
+    	if (rowStart.getValue() == null || rowEnd.getValue() == null || rowStart.getValue() > rowEnd.getValue()) {
+    		return;
+    	} 
+    	
     	diagramContainer.getChildren().clear();
     	DataTable dataTable = dataAdapter.getDataTable(currentDataTableName);
     	if (xAxisColumn.getItems().size() >= 2) {
     		if (xAxisColumn.getSelectionModel().getSelectedIndex() != -1 && yAxisColumn.getSelectionModel().getSelectedIndex() != -1)
-        	createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()));
+    			drawDiagram(dataTable);
     	}
+    }
+    
+    public void loadLineDiagram(DataTable dataTable) {
+    	XYChart chart = DiagramCreator.createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
+    	
+    	changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
+    }
+    
+    public void loadAreaDiagram(DataTable dataTable) {
+    	XYChart chart = DiagramCreator.createAreaDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
+    	
+    	changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
+    }
+    
+    public void loadBarDiagram(DataTable dataTable) {
+    	XYChart chart = DiagramCreator.createBarChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
+    	
+    	changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
     }
 
 }
