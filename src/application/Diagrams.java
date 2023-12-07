@@ -52,17 +52,21 @@ public enum Diagrams {
 	    	}
 		}
 	},
-	BUBBLE_CHART("BubbleChart") {
+	SCATTER_CHART("ScatterChart") {
 		@Override
 		public void changeChartColor(Chart chart, Color color) {
-			// TODO Auto-generated method stub
-			
+	    	String rgbColor = Utils.getHexColorString(color);
+	    	String style_stroke = "-fx-background-color:" + rgbColor + ";";
+	    	for (XYChart.Series<?, ?> series : ((XYChart<?, ?>) chart).getData()) {
+	    		for (Data<?, ?> data : series.getData()) {
+		            data.getNode().setStyle(style_stroke);
+		        }
+	    	}
 		}
 	},
-	PIE_CHART("PieChart111") {
+	PIE_CHART("PieChart") {
 		@Override
 		public void changeChartColor(Chart chart, Color color) {
-			// TODO Auto-generated method stub
 			
 		}
 	};

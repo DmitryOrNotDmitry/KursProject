@@ -167,11 +167,13 @@ public class DiagramController {
 			return;
 		}
 		
-		if (currentDiagram == Diagrams.BUBBLE_CHART) {
+		if (currentDiagram == Diagrams.SCATTER_CHART) {
+			loadScatterDiagram(dataTable);
 			return;
 		}
 		
 		if (currentDiagram == Diagrams.PIE_CHART) {
+			loadPieDiagram(dataTable);
 			return;
 		}
 	}
@@ -189,13 +191,13 @@ public class DiagramController {
     void changeColor(ActionEvent event) {
     	if (diagramContainer.getChildren().size() > 0) {
     		Color color = colorChooser.getValue();
-        	XYChart chart = (XYChart) diagramContainer.getChildren().get(0);
+        	Chart chart = (Chart) diagramContainer.getChildren().get(0);
         	changeChartColor(chart, color);
     	}
     	
     }
     
-    private void changeChartColor(XYChart<?, ?> chart, Color color) {
+    private void changeChartColor(Chart chart, Color color) {
     	currentDiagram.changeChartColor(chart, color);
     }
     
@@ -213,7 +215,7 @@ public class DiagramController {
     }
     
     public void loadLineDiagram(DataTable dataTable) {
-    	XYChart chart = DiagramCreator.createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	Chart chart = DiagramCreator.createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
     	if (chart == null) {
     		return;
     	}
@@ -223,7 +225,7 @@ public class DiagramController {
     }
     
     public void loadAreaDiagram(DataTable dataTable) {
-    	XYChart chart = DiagramCreator.createAreaDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	Chart chart = DiagramCreator.createAreaDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
     	if (chart == null) {
     		return;
     	}
@@ -233,12 +235,32 @@ public class DiagramController {
     }
     
     public void loadBarDiagram(DataTable dataTable) {
-    	XYChart chart = DiagramCreator.createBarChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	Chart chart = DiagramCreator.createBarChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
     	if (chart == null) {
     		return;
     	}
     	
     	changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
+    }
+    
+    public void loadScatterDiagram(DataTable dataTable) {
+    	Chart chart = DiagramCreator.createScatterChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
+    	
+    	changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
+    }
+    
+    public void loadPieDiagram(DataTable dataTable) {
+    	Chart chart = DiagramCreator.createPieChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
+    	
+    	//changeChartColor(chart, colorChooser.getValue());
         diagramContainer.setCenter(chart);
     }
 
