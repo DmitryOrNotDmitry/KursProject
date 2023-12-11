@@ -9,11 +9,14 @@ import data.Row;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ListView.EditEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -45,6 +48,14 @@ public class DataController {
     	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
 		if (listDataTableNames != null) {
 			listDataTableNames.setItems(names);
+			listDataTableNames.setCellFactory(TextFieldListCell.forListView());
+			listDataTableNames.setOnEditCommit(event -> {
+	            int index = event.getIndex();
+	            String newValue = event.getNewValue();
+	            String oldValue = names.get(index);
+	            dataTableAdapter.changeDataTableName(oldValue, newValue);
+	            names.set(index, newValue);
+	        });
 		}
     }
     
@@ -98,11 +109,22 @@ public class DataController {
     
     @FXML
     void selectDataTable(MouseEvent event) {
-    	String newName = listDataTableNames.getSelectionModel().getSelectedItem();
-    	if (newName == null || newName.equals(selectedDataTableName)) {
+    	int clickCount = event.getClickCount();
+    	
+    	if (clickCount == 1) {
+    		String newName = listDataTableNames.getSelectionModel().getSelectedItem();
+    		if (newName == null || newName.equals(selectedDataTableName)) {
+    			return;
+    		}
+    		loadDataTable(newName); 
     		return;
     	}
-    	loadDataTable(newName);
+    	
+    	if (clickCount == 2) {
+    		
+    		return;
+    	}
+    	
     }
     
 

@@ -31,6 +31,16 @@ public class DataTableAdapter {
 		this.dataTables.put(name, dataTable);
 	}
 	
+	public void removeDataTable(String name) {
+		this.dataTables.remove(name);
+	}
+	
+	public void changeDataTableName(String oldName, String newName) {
+		DataTable dataTable = this.getDataTable(oldName);
+		this.removeDataTable(oldName);
+		this.addDataTable(newName, dataTable);
+	}
+	
 	public DataTable getDataTable(String name) {
 		DataTable dataTable = this.dataTables.get(name);
 		if (!dataTable.isLoaded()) {

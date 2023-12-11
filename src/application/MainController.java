@@ -14,18 +14,12 @@ public class MainController {
 
 	@FXML
     private Button addTableButton;
-
-    @FXML
-    private Button addTableButton1;
     
     @FXML
     private GridPane mainGrid;
 
     @FXML
     private ListView<String> dataList;
-
-    @FXML
-    private ListView<String> diagramList;
     
     private DataTableAdapter dataAdapter;
     

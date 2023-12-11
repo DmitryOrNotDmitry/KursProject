@@ -42,13 +42,7 @@
                         <Button fx:id="addTableButton" layoutX="14.0" layoutY="255.0" mnemonicParsing="false" text="Добавить" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <children>
-                        <ListView fx:id="diagramList" layoutX="64.0" layoutY="78.0" onMouseClicked="#redirectToDiagram" prefHeight="157.0" prefWidth="474.0" />
-                        <Button fx:id="addTableButton1" layoutX="14.0" layoutY="273.0" mnemonicParsing="false" text="Добавить" />
-                        <Label layoutX="76.0" layoutY="60.0" text="Существующие диаграммы" />
-                     </children>
-                  </AnchorPane>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

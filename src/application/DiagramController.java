@@ -33,12 +33,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.util.StringConverter;
 
 public class DiagramController {
 
+	private static final int SETTING_CONTAINER_WIDTH = 200;
+	private static final int SETTING_CONTAINER_HEIGHT = 100;
+	
 	private DataTableAdapter dataAdapter;
 	private String currentDataTableName;
 	private Diagrams currentDiagram;
@@ -130,10 +134,14 @@ public class DiagramController {
     }
     
     private void onTableNameClick(Object sender) {
-    	diagramContainer.getChildren().clear();
-    	
     	String tableName = ((Button) sender).getText();
     	DataTable dataTable = dataAdapter.getDataTable(tableName);
+    	if (!dataTable.getFile().exists()) {
+    		return;
+    	}
+    	
+    	diagramContainer.getChildren().clear();
+    	
     	currentDataTableName = tableName;
     	
     	int countRows = dataTable.getRows().size();
@@ -157,31 +165,15 @@ public class DiagramController {
     	if (dataTable == null) {
     		return;
     	}
+    	Chart chart = currentDiagram.create(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
+    	if (chart == null) {
+    		return;
+    	}
     	
-		if (currentDiagram == Diagrams.LINE_CHART) {
-			loadLineDiagram(dataTable);
-			return;
-		}
-		
-		if (currentDiagram == Diagrams.AREA_CHART) {
-			loadAreaDiagram(dataTable);
-			return;
-		}
-		
-		if (currentDiagram == Diagrams.BAR_CHART) {
-			loadBarDiagram(dataTable);
-			return;
-		}
-		
-		if (currentDiagram == Diagrams.SCATTER_CHART) {
-			loadScatterDiagram(dataTable);
-			return;
-		}
-		
-		if (currentDiagram == Diagrams.PIE_CHART) {
-			loadPieDiagram(dataTable);
-			return;
-		}
+    	currentDiagram.changeChartColor(chart, colorChooser.getValue());
+        diagramContainer.setCenter(chart);
+        
+        showSettings(currentDiagram.getSettings());
 	}
 
 	@FXML
@@ -220,54 +212,41 @@ public class DiagramController {
     	}
     }
     
-    public void loadLineDiagram(DataTable dataTable) {
-    	Chart chart = DiagramCreator.createLineDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
-    	if (chart == null) {
-    		return;
+    private void showSettings(Settings... settings) {
+    	Region[] containers = {xAxisColumnContainer, yAxisColumnContainer, colorChooserContainer, rowChooserContainer };
+		for (Region set_cont : containers) {
+			set_cont.setMaxSize(0, 0);
+			set_cont.setMinSize(0, 0);
+			set_cont.setVisible(false);
     	}
     	
-    	changeChartColor(chart, colorChooser.getValue());
-        diagramContainer.setCenter(chart);
+    	for (Settings set : settings) {
+    		if (set == Settings.X_AXIS) {
+    			showRegion(xAxisColumnContainer);
+    			continue;
+    		}
+    		
+    		if (set == Settings.Y_AXIS) {
+    			showRegion(yAxisColumnContainer);
+    			continue;
+    		}
+    		
+    		if (set == Settings.COLOR) {
+    			showRegion(colorChooserContainer);
+    			continue;
+    		}
+    		
+    		if (set == Settings.ROWS) {
+    			showRegion(rowChooserContainer);
+    			continue;
+    		}
+    	}
     }
     
-    public void loadAreaDiagram(DataTable dataTable) {
-    	Chart chart = DiagramCreator.createAreaDiagram(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
-    	if (chart == null) {
-    		return;
-    	}
-    	
-    	changeChartColor(chart, colorChooser.getValue());
-        diagramContainer.setCenter(chart);
-    }
-    
-    public void loadBarDiagram(DataTable dataTable) {
-    	Chart chart = DiagramCreator.createBarChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
-    	if (chart == null) {
-    		return;
-    	}
-    	
-    	changeChartColor(chart, colorChooser.getValue());
-        diagramContainer.setCenter(chart);
-    }
-    
-    public void loadScatterDiagram(DataTable dataTable) {
-    	Chart chart = DiagramCreator.createScatterChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
-    	if (chart == null) {
-    		return;
-    	}
-    	
-    	changeChartColor(chart, colorChooser.getValue());
-        diagramContainer.setCenter(chart);
-    }
-    
-    public void loadPieDiagram(DataTable dataTable) {
-    	Chart chart = DiagramCreator.createPieChart(currentDataTableName, dataTable, dataTable.getColumnNames().indexOf(xAxisColumn.getSelectionModel().getSelectedItem()), dataTable.getColumnNames().indexOf(yAxisColumn.getSelectionModel().getSelectedItem()), rowStart.getValue() - 1, rowEnd.getValue());
-    	if (chart == null) {
-    		return;
-    	}
-    	
-    	//changeChartColor(chart, colorChooser.getValue());
-        diagramContainer.setCenter(chart);
+    private void showRegion(Region reg) {
+    	reg.setMaxSize(SETTING_CONTAINER_WIDTH, SETTING_CONTAINER_HEIGHT);
+    	reg.setMinSize(SETTING_CONTAINER_WIDTH, SETTING_CONTAINER_HEIGHT);
+    	reg.setVisible(true);
     }
 
 }

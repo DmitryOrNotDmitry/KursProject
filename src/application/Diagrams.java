@@ -1,5 +1,6 @@
 package application;
 
+import data.DataTable;
 import javafx.scene.Node;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.XYChart;
@@ -20,6 +21,18 @@ public enum Diagrams {
 	    		}
 	    	}
 		}
+
+		@Override
+		public Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart,
+				int rowEnd) {
+			return DiagramCreator.createLineDiagram(tableName, dataTable, xColumnIndex, yColumnIndex, rowStart, rowEnd);
+		}
+
+		@Override
+		public Settings[] getSettings() {
+			Settings[] settings = {Settings.X_AXIS, Settings.Y_AXIS, Settings.COLOR, Settings.ROWS};
+			return settings;
+		}
 	},
 	AREA_CHART("AreaChart") {
 		@Override
@@ -39,6 +52,18 @@ public enum Diagrams {
     			}
 	    	}
 		}
+
+		@Override
+		public Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart,
+				int rowEnd) {
+			return DiagramCreator.createAreaDiagram(tableName, dataTable, xColumnIndex, yColumnIndex, rowStart, rowEnd);
+		}
+
+		@Override
+		public Settings[] getSettings() {
+			Settings[] settings = {Settings.X_AXIS, Settings.Y_AXIS, Settings.COLOR, Settings.ROWS};
+			return settings;
+		}
 	},
 	BAR_CHART("BarChart") {
 		@Override
@@ -50,6 +75,18 @@ public enum Diagrams {
 		            data.getNode().setStyle(style_fill);
 		        }
 	    	}
+		}
+
+		@Override
+		public Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart,
+				int rowEnd) {
+			return DiagramCreator.createBarChart(tableName, dataTable, xColumnIndex, yColumnIndex, rowStart, rowEnd);
+		}
+
+		@Override
+		public Settings[] getSettings() {
+			Settings[] settings = {Settings.X_AXIS, Settings.Y_AXIS, Settings.COLOR, Settings.ROWS};
+			return settings;
 		}
 	},
 	SCATTER_CHART("ScatterChart") {
@@ -63,11 +100,35 @@ public enum Diagrams {
 		        }
 	    	}
 		}
+
+		@Override
+		public Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart,
+				int rowEnd) {
+			return DiagramCreator.createScatterChart(tableName, dataTable, xColumnIndex, yColumnIndex, rowStart, rowEnd);
+		}
+
+		@Override
+		public Settings[] getSettings() {
+			Settings[] settings = {Settings.X_AXIS, Settings.Y_AXIS, Settings.COLOR, Settings.ROWS};
+			return settings;
+		}
 	},
 	PIE_CHART("PieChart") {
 		@Override
 		public void changeChartColor(Chart chart, Color color) {
 			
+		}
+
+		@Override
+		public Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart,
+				int rowEnd) {
+			return DiagramCreator.createPieChart(tableName, dataTable, xColumnIndex, yColumnIndex, rowStart, rowEnd);
+		}
+
+		@Override
+		public Settings[] getSettings() {
+			Settings[] settings = {Settings.X_AXIS, Settings.Y_AXIS, Settings.ROWS};
+			return settings;
 		}
 	};
 	
@@ -95,4 +156,6 @@ public enum Diagrams {
 	}
 	
 	public abstract void changeChartColor(Chart chart, Color color);
+	public abstract Chart create(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd);
+	public abstract Settings[] getSettings();
 }

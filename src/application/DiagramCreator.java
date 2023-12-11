@@ -35,16 +35,20 @@ public class DiagramCreator {
         Series<Number, Number> dataSeries = new Series<>();
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
-        for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-        	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
-        	if (min > item1)
-        		min = item1;
-        	if (max < item1)
-        		max = item1;
-        	double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
-        	dataSeries.getData().add(new Data<>(item1, item2));
-        }
-
+        try {
+    	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
+	        	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
+	        	if (min > item1)
+	        		min = item1;
+	        	if (max < item1)
+	        		max = item1;
+	        	double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
+	        
+	        	dataSeries.getData().add(new Data<>(item1, item2));
+	        }
+		} catch(NumberFormatException e) {
+	    	return null;
+	    }
         lineChart.getData().add(dataSeries);
 
         // Настройка внешнего вида графика
@@ -81,14 +85,18 @@ public class DiagramCreator {
 	    Series<Number, Number> dataSeries = new Series<>();
 	    double min = Double.MAX_VALUE;
 	    double max = Double.MIN_VALUE;
-	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	    	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
-	        if (min > item1)
-	            min = item1;
-	        if (max < item1)
-	            max = item1;
-	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
-	        dataSeries.getData().add(new Data<>(item1, item2));
+	    try {
+	    	for (Row row : dataTable.getRows(rowStart, rowEnd)) {
+	    		double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
+	    		if (min > item1)
+	    			min = item1;
+	    		if (max < item1)
+	    			max = item1;
+	    		double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
+	    		dataSeries.getData().add(new Data<>(item1, item2));
+	    	}	    	
+	    } catch(NumberFormatException e) {
+	    	return null;
 	    }
 
 	    // Добавление данных в виде площади
@@ -121,12 +129,15 @@ public class DiagramCreator {
 
 	    // Добавление данных в график
 	    XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
-	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	        String item1 = row.getItem(xColumnIndex).getValue();
-	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
-	        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
+	    try {
+		    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
+		        String item1 = row.getItem(xColumnIndex).getValue();
+		        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
+		        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
+		    }
+		} catch(NumberFormatException e) {
+	    	return null;
 	    }
-
 	    // Добавление данных в виде столбцов
 	    barChart.getData().add(dataSeries);
 
@@ -154,16 +165,19 @@ public class DiagramCreator {
 	    XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
 	    double min = Double.MAX_VALUE;
 	    double max = Double.MIN_VALUE;
-	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	    	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
-	        if (min > item1)
-	            min = item1;
-	        if (max < item1)
-	            max = item1;
-	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
-	        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
+	    try {
+			for (Row row : dataTable.getRows(rowStart, rowEnd)) {
+		    	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
+		        if (min > item1)
+		            min = item1;
+		        if (max < item1)
+		            max = item1;
+		        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
+		        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
+		    }
+		} catch(NumberFormatException e) {
+	    	return null;
 	    }
-
 	    // Добавление данных в виде точек
 	    scatterChart.getData().add(dataSeries);
 
@@ -190,12 +204,15 @@ public class DiagramCreator {
 	    PieChart pieChart = new PieChart();
 
 	    // Добавление данных в график
-	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	        String itemName = row.getItem(xColumnIndex).getValue();
-	        double itemValue = Double.parseDouble(row.getItem(yColumnIndex).getValue());
-	        pieChart.getData().add(new PieChart.Data(itemName, itemValue));
+	    try {
+		    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
+		        String itemName = row.getItem(xColumnIndex).getValue();
+		        double itemValue = Double.parseDouble(row.getItem(yColumnIndex).getValue());
+		        pieChart.getData().add(new PieChart.Data(itemName, itemValue));
+		    }
+		} catch(NumberFormatException e) {
+	    	return null;
 	    }
-
 	    // Настройка внешнего вида графика
 	    pieChart.setTitle("Диаграмма " + tableName);
 
