@@ -4,7 +4,6 @@ import data.DataTable;
 import data.Row;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.BubbleChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.Chart;
 import javafx.scene.chart.LineChart;
@@ -21,7 +20,7 @@ public class DiagramCreator {
 		
 	}
 	
-	public static XYChart createLineDiagram(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
+	public static Chart createLineDiagram(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
     	if (xColumnIndex == -1 || yColumnIndex == -1) {
     		return null;
     	}
@@ -34,15 +33,15 @@ public class DiagramCreator {
 
         // Добавление данных в график
         Series<Number, Number> dataSeries = new Series<>();
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
         for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-        	int item1 = Integer.parseInt(row.getItem(xColumnIndex).getValue());
+        	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
         	if (min > item1)
         		min = item1;
         	if (max < item1)
         		max = item1;
-        	int item2 = Integer.parseInt(row.getItem(yColumnIndex).getValue());
+        	double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
         	dataSeries.getData().add(new Data<>(item1, item2));
         }
 
@@ -67,7 +66,7 @@ public class DiagramCreator {
 
     } 
 	
-	public static XYChart createAreaDiagram(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
+	public static Chart createAreaDiagram(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
 	    if (xColumnIndex == -1 || yColumnIndex == -1) {
 	        return null;
 	    }
@@ -80,15 +79,15 @@ public class DiagramCreator {
 
 	    // Добавление данных в график
 	    Series<Number, Number> dataSeries = new Series<>();
-	    int min = Integer.MAX_VALUE;
-	    int max = Integer.MIN_VALUE;
+	    double min = Double.MAX_VALUE;
+	    double max = Double.MIN_VALUE;
 	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	        int item1 = Integer.parseInt(row.getItem(xColumnIndex).getValue());
+	    	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
 	        if (min > item1)
 	            min = item1;
 	        if (max < item1)
 	            max = item1;
-	        int item2 = Integer.parseInt(row.getItem(yColumnIndex).getValue());
+	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
 	        dataSeries.getData().add(new Data<>(item1, item2));
 	    }
 
@@ -109,7 +108,7 @@ public class DiagramCreator {
 	    return areaChart;
 	}
 	
-	public static XYChart createBarChart(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
+	public static Chart createBarChart(String tableName, DataTable dataTable, int xColumnIndex, int yColumnIndex, int rowStart, int rowEnd) {
 	    if (xColumnIndex == -1 || yColumnIndex == -1) {
 	        return null;
 	    }
@@ -124,7 +123,7 @@ public class DiagramCreator {
 	    XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
 	        String item1 = row.getItem(xColumnIndex).getValue();
-	        int item2 = Integer.parseInt(row.getItem(yColumnIndex).getValue());
+	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
 	        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
 	    }
 
@@ -153,15 +152,15 @@ public class DiagramCreator {
 
 	    // Добавление данных в график
 	    XYChart.Series<Number, Number> dataSeries = new XYChart.Series<>();
-	    int min = Integer.MAX_VALUE;
-	    int max = Integer.MIN_VALUE;
+	    double min = Double.MAX_VALUE;
+	    double max = Double.MIN_VALUE;
 	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
-	        int item1 = Integer.parseInt(row.getItem(xColumnIndex).getValue());
+	    	double item1 = Double.parseDouble(row.getItem(xColumnIndex).getValue());
 	        if (min > item1)
 	            min = item1;
 	        if (max < item1)
 	            max = item1;
-	        int item2 = Integer.parseInt(row.getItem(yColumnIndex).getValue());
+	        double item2 = Double.parseDouble(row.getItem(yColumnIndex).getValue());
 	        dataSeries.getData().add(new XYChart.Data<>(item1, item2));
 	    }
 
@@ -193,7 +192,7 @@ public class DiagramCreator {
 	    // Добавление данных в график
 	    for (Row row : dataTable.getRows(rowStart, rowEnd)) {
 	        String itemName = row.getItem(xColumnIndex).getValue();
-	        int itemValue = Integer.parseInt(row.getItem(yColumnIndex).getValue());
+	        double itemValue = Double.parseDouble(row.getItem(yColumnIndex).getValue());
 	        pieChart.getData().add(new PieChart.Data(itemName, itemValue));
 	    }
 

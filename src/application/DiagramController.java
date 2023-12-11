@@ -116,7 +116,9 @@ public class DiagramController {
 				@Override
 				public void handle(ActionEvent e) {
 					currentDiagram = Diagrams.getDiagramByName(((Button) e.getSource()).getText());
-					drawDiagram(dataAdapter.getDataTable(currentDataTableName));
+					if (currentDataTableName != null) {
+						drawDiagram(dataAdapter.getDataTable(currentDataTableName));
+					}
 				}
 			});
 		}
@@ -152,6 +154,10 @@ public class DiagramController {
     }
     
     private void drawDiagram(DataTable dataTable) {
+    	if (dataTable == null) {
+    		return;
+    	}
+    	
 		if (currentDiagram == Diagrams.LINE_CHART) {
 			loadLineDiagram(dataTable);
 			return;

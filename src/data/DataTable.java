@@ -21,7 +21,9 @@ public class DataTable {
 	
 	public void setColumns(String... columnNames) {
 		for (String name : columnNames) {
-			this.addColumn(name);
+			if (!name.isEmpty()) {
+				this.addColumn(name);
+			}
 		}
 	}
 	

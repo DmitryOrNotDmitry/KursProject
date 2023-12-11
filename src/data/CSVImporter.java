@@ -19,13 +19,15 @@ public class CSVImporter {
 	public static void importCSV(DataTable dataTable) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(dataTable.getFile().getAbsolutePath()))) {
             String line;
-            if ((line = reader.readLine()) != null) {
+            if ((line = reader.readLine()) != null && !line.isEmpty()) {
+            	line = line.strip().trim();
             	String[] headers = line.split(",");
             	dataTable.setColumns(headers);
             }
             
-            while ((line = reader.readLine()) != null) {
-                String[] fields = line.split(",");
+            while ((line = reader.readLine()) != null && !line.isEmpty()) {
+            	line = line.strip().trim();
+            	String[] fields = line.split(",");
                 dataTable.addRow(fields);
             }
         } catch (Exception e) {
