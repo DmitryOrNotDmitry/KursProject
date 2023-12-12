@@ -22,6 +22,7 @@ public class ScenesInitializator {
 	
 	private static MainController mainController;
 	private static DataController dataController;
+	private static DiagramController diagramController;
 	
 	public static Scene getPredScene() {
 		Parent root;
@@ -79,6 +80,7 @@ public class ScenesInitializator {
 				root = loader.load();
 				diagramScene = new Scene(root);
 				diagramScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+				diagramController = loader.getController();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -96,7 +98,27 @@ public class ScenesInitializator {
 	}
 
 	public static DataController getDataController() {
+		if (dataController == null) {
+			ScenesInitializator.getDataScene();
+		}
+		
 		return dataController;
+	}
+	
+	public static MainController getMainController() {
+		if (mainController == null) {
+			ScenesInitializator.getMainScene();
+		}
+		
+		return mainController;
+	}
+	
+	public static DiagramController getDiagramController() {
+		if (diagramController == null) {
+			ScenesInitializator.getDiagramScene();
+		}
+		
+		return diagramController;
 	}
 	
 }

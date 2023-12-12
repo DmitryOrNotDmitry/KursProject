@@ -1,8 +1,10 @@
 package application;
 
+import data.DataTable;
 import data.DataTableAdapter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -21,14 +23,13 @@ public class MainController {
     @FXML
     private ListView<String> dataList;
     
-    private DataTableAdapter dataAdapter;
+    private DataTableAdapter dataTableAdapter;
     
     
 	@FXML
     private void initialize() {
-    	dataAdapter = DataTableAdapter.getInstance();
-    	ObservableList<String> names = FXCollections.observableArrayList(dataAdapter.getAllDataTableNames());
-		dataList.setItems(names);
+		dataTableAdapter = DataTableAdapter.getInstance();
+    	this.fillDataList();
     }
 	
 
@@ -36,12 +37,18 @@ public class MainController {
     void redirectToDataTable(MouseEvent event) {
 		MenuController.showData(addTableButton);
 		ScenesInitializator.getDataController().loadDataTable(dataList.getSelectionModel().getSelectedItem());
-		//dataController.loadDataTble(dataList.getSelectionModel().getSelectedItem());
     }
 
-    @FXML
-    void redirectToDiagram(MouseEvent event) {
-
+	@FXML
+    void addDataTableInMainMenu(ActionEvent event) {
+		ScenesInitializator.getDataController().chooseFileAndLoadDataTable();
+    	
+		this.fillDataList();
     }
+	
+	public void fillDataList() {
+		ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
+    	dataList.setItems(names);
+	}
 	
 }

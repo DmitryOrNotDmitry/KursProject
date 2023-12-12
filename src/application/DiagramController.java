@@ -93,22 +93,9 @@ public class DiagramController {
     @FXML
     private void initialize() {
     	dataAdapter = DataTableAdapter.getInstance();
-    	ObservableList<String> names = FXCollections.observableArrayList(dataAdapter.getAllDataTableNames());
-		for (String name : names) {
-			Button button = new Button();
-			button.setText(name);
-			button.setPrefWidth(80);
-			button.setMaxHeight(Double.MAX_VALUE);
-			tableNamesContainer.getChildren().add(button);
-			HBox.setMargin(button, new Insets(10));
-			button.setOnAction(new EventHandler<ActionEvent>() {
-				@Override
-				public void handle(ActionEvent e) {
-					onTableNameClick(e.getSource());
-				}
-			});
-		}
-		
+    	
+    	this.fillDataTableNames();
+    	
 		for (Diagrams diagram : Diagrams.values()) {
 			Button button = new Button();
 			button.setText(diagram.getName());
@@ -133,10 +120,29 @@ public class DiagramController {
 		currentDiagram = Diagrams.AREA_CHART;
     }
     
+    public void fillDataTableNames() {
+    	tableNamesContainer.getChildren().clear();
+    	ObservableList<String> names = FXCollections.observableArrayList(dataAdapter.getAllDataTableNames());
+		for (String name : names) {
+			Button button = new Button();
+			button.setText(name);
+			button.setPrefWidth(80);
+			button.setMaxHeight(Double.MAX_VALUE);
+			tableNamesContainer.getChildren().add(button);
+			HBox.setMargin(button, new Insets(10));
+			button.setOnAction(new EventHandler<ActionEvent>() {
+				@Override
+				public void handle(ActionEvent e) {
+					onTableNameClick(e.getSource());
+				}
+			});
+		}
+    }
+    
     private void onTableNameClick(Object sender) {
     	String tableName = ((Button) sender).getText();
     	DataTable dataTable = dataAdapter.getDataTable(tableName);
-    	if (!dataTable.getFile().exists()) {
+    	if (dataTable == null || !dataTable.getFile().exists()) {
     		return;
     	}
     	

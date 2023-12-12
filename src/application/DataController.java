@@ -55,12 +55,28 @@ public class DataController {
 	            String oldValue = names.get(index);
 	            dataTableAdapter.changeDataTableName(oldValue, newValue);
 	            names.set(index, newValue);
+	            
+	            ScenesInitializator.getMainController().fillDataList();
+	            ScenesInitializator.getDiagramController().fillDataTableNames();
 	        });
 		}
     }
     
     @FXML
     void addDataTable(ActionEvent event) {
+    	DataTable dataTable = chooseFileAndLoadDataTable();
+    	
+    	fillTable(dataTable);
+    	
+    	selectedDataTableName = dataTable.getFile().getName();
+    	dataTableAdapter.addDataTable(selectedDataTableName, dataTable);
+    	
+    	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
+		listDataTableNames.setItems(names);
+    	
+    }
+    
+    public DataTable chooseFileAndLoadDataTable() {
     	FileChooser fileChooser = new FileChooser();
 
         fileChooser.setTitle("Выберите файл");
@@ -74,23 +90,23 @@ public class DataController {
         	
         	DataTable dataTable = CSVImporter.importCSV(selectedFile.getAbsolutePath());
         	dataTable.setFile(selectedFile);
-        	fillTable(dataTable);
+        	dataTableAdapter.addDataTable(selectedFile.getName(), dataTable);
         	
-        	selectedDataTableName = selectedFile.getName();
-        	dataTableAdapter.addDataTable(selectedDataTableName, dataTable);
-        	
-        	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
-    		listDataTableNames.setItems(names);
+        	return dataTable;
         }
-    	
+        
+        return null;
     }
     
     public void loadDataTable(String name) {
     	DataTable dataTable = dataTableAdapter.getDataTable(name);
-    	fillTable(dataTable);
+		fillTable(dataTable);
     }
     
     private void fillTable(DataTable dataTable) {
+    	if (dataTable == null) {
+    		return;
+    	}
     	table.getColumns().clear();
     	int len = dataTable.getColumns().size();
     	for (int i = 0; i < len; i++) {

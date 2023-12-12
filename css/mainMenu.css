@@ -1,0 +1,62 @@
+/*
+ * --first-color = #17252A
+ * --second-color = #2B7A78
+ * --third-color = #3AAFA9
+ * --fourth-color = #DEF2F1
+ * --fifth-color = #FEFFFF
+ */
+ 
+ .dataList {
+ 	-fx-border-width: 3;
+ 	-fx-border-color: #2B7A78;
+ }
+ 
+ .list:first-child {
+	-fx-background-radius: 30;
+}
+ 
+ .list-cell {
+	-fx-padding: 10;
+    -fx-text-fill: #17252A;
+}
+
+ .list-cell:odd {
+    -fx-background-color: #DEF2F1;
+}
+
+ .list-cell:even {
+    -fx-background-color: #FFF2F1;
+}
+
+.list-cell:hover {
+	-fx-border-width: 2;
+	-fx-border-style: solid;
+	-fx-border-color: red;
+    -fx-background-color: #FEFFFF;
+    -fx-font-size: 14px;
+}
+
+.header {
+	-fx-font-size: 27px;
+	-fx-text-fill: #17252A;
+}
+
+.actionButton {
+	-fx-background-radius: 10;
+	-fx-padding: 10;
+	-fx-background-color: #2B7A78;
+	-fx-text-fill: #DEF2F1;
+}
+
+.actionButton:hover {
+	-fx-background-color: #777777;
+}
+
+.actionButton:pressed {
+	-fx-background-color: #ff5959;
+}
+
+.combo-box {
+	-fx-pref-width: 150px; 
+    -fx-pref-height: 20px;
+}

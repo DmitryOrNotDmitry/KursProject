@@ -43,6 +43,10 @@ public class DataTableAdapter {
 	
 	public DataTable getDataTable(String name) {
 		DataTable dataTable = this.dataTables.get(name);
+		if (dataTable == null) {
+			return null;
+		}
+		
 		if (!dataTable.isLoaded()) {
 			CSVImporter.importCSV(dataTable);
 		}
