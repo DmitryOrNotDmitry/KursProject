@@ -1,0 +1,19 @@
+.no_sel_button {
+	-fx-background-color: #8082e1;
+}
+
+.no_sel_button:hover {
+	-fx-background-color: #00ffff;
+}
+
+.no_sel_button:pressed {
+	-fx-background-color: #ff8080;
+}
+
+.selected_button {
+	-fx-background-color: lime;
+}
+
+.selected_button_without_data {
+	-fx-background-color: #9e8591;
+}

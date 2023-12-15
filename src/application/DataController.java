@@ -50,6 +50,10 @@ public class DataController {
     private void initialize() {
     	System.out.println("dataTableAdapter init");
     	dataTableAdapter = DataTableAdapter.getInstance();
+    	this.fillTableNames();
+    }
+    
+    private void fillTableNames() {
     	ObservableList<String> names = FXCollections.observableArrayList(dataTableAdapter.getAllDataTableNames());
 		if (listDataTableNames != null) {
 			listDataTableNames.setItems(names);
@@ -109,16 +113,20 @@ public class DataController {
     
     public void loadDataTable(String name) {
     	DataTable dataTable = dataTableAdapter.getDataTable(name);
-    	
-    	if (!dataTable.getFile().exists()) {
-    		Alert alert = new Alert(AlertType.ERROR);
-    		alert.setTitle("Ошибка");
-    		alert.setContentText("Файл '" + dataTable.getFile().getName() + "' не найден\nПолный путь - '" + dataTable.getFile().getAbsolutePath() + "'");
-    		alert.setResizable(true);
-    		alert.show();
+
+    	if (dataTable == null) {
     		return;
     	}
     	
+    	if (!dataTable.getFile().exists()) {
+    		Alert alert = new Alert(AlertType.WARNING);
+    		alert.setTitle("Diagrams");
+    		alert.setContentText("Файл '" + dataTable.getFile().getName() + "' не найден\nПолный путь - '" + dataTable.getFile().getAbsolutePath() + "'");
+    		alert.setResizable(true);
+    		alert.show();
+    	}
+    	
+    	selectedDataTableName = name;
 		fillTable(dataTable);
     }
     
@@ -167,6 +175,13 @@ public class DataController {
     	if (selectedDataTableName != null) {
     		dataTableAdapter.removeDataTable(selectedDataTableName);
     	}
+    	
+    	this.fillTableNames();
+    	
+    	ScenesInitializator.getDiagramController().fillDataTableNames();
+    	ScenesInitializator.getMainController().fillDataList();
+    	
+    	
     }
 
 }

@@ -43,6 +43,10 @@ public class DiagramController {
 	private static final int SETTING_CONTAINER_WIDTH = 200;
 	private static final int SETTING_CONTAINER_HEIGHT = 100;
 	
+	private static final String STYLE_SELECTED_BUTTON = "selected_button";
+	private static final String STYLE_NO_SELECTED_BUTTON = "no_sel_button";
+	private static final String STYLE_SELECTED_BUTTON_WITHOUT_DATA = "selected_button_without_data";
+	
 	private DataTableAdapter dataAdapter;
 	private String currentDataTableName;
 	private Diagrams currentDiagram;
@@ -101,12 +105,20 @@ public class DiagramController {
 			button.setText(diagram.getName());
 			button.setPrefWidth(80);
 			button.setMaxHeight(Double.MAX_VALUE);
+			button.getStyleClass().add(STYLE_NO_SELECTED_BUTTON);
 			diagramTypeContainer.getChildren().add(button);
 			HBox.setMargin(button, new Insets(10));
 			button.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent e) {
 					currentDiagram = Diagrams.getDiagramByName(((Button) e.getSource()).getText());
+					
+					for (Node node : diagramTypeContainer.getChildren()) {
+			    		node.getStyleClass().remove(STYLE_SELECTED_BUTTON);
+			    	}
+			    	((Node) e.getSource()).getStyleClass().add(STYLE_SELECTED_BUTTON);
+			    	
+					
 					if (currentDataTableName != null) {
 						drawDiagram(dataAdapter.getDataTable(currentDataTableName));
 					}
@@ -128,6 +140,7 @@ public class DiagramController {
 			button.setText(name);
 			button.setPrefWidth(80);
 			button.setMaxHeight(Double.MAX_VALUE);
+			button.getStyleClass().add(STYLE_NO_SELECTED_BUTTON);
 			tableNamesContainer.getChildren().add(button);
 			HBox.setMargin(button, new Insets(10));
 			button.setOnAction(new EventHandler<ActionEvent>() {
@@ -141,10 +154,18 @@ public class DiagramController {
     
     private void onTableNameClick(Object sender) {
     	String tableName = ((Button) sender).getText();
+    	
+    	for (Node node : tableNamesContainer.getChildren()) {
+    		node.getStyleClass().remove(STYLE_SELECTED_BUTTON);
+    		node.getStyleClass().remove(STYLE_SELECTED_BUTTON_WITHOUT_DATA);
+    	}
     	DataTable dataTable = dataAdapter.getDataTable(tableName);
+
     	if (dataTable == null || !dataTable.getFile().exists()) {
+    		((Node) sender).getStyleClass().add(STYLE_SELECTED_BUTTON_WITHOUT_DATA);
     		return;
     	}
+    	((Node) sender).getStyleClass().add(STYLE_SELECTED_BUTTON);
     	
     	diagramContainer.getChildren().clear();
     	

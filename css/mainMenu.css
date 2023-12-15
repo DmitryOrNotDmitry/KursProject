@@ -11,24 +11,24 @@
  	-fx-border-color: #2B7A78;
  }
  
- .list:first-child {
+.dataList .list:first-child {
 	-fx-background-radius: 30;
 }
  
- .list-cell {
+.dataList .list-cell {
 	-fx-padding: 10;
     -fx-text-fill: #17252A;
 }
 
- .list-cell:odd {
+.dataList .list-cell:odd {
     -fx-background-color: #DEF2F1;
 }
 
- .list-cell:even {
+.dataList .list-cell:even {
     -fx-background-color: #FFF2F1;
 }
 
-.list-cell:hover {
+.dataList .list-cell:hover {
 	-fx-border-width: 2;
 	-fx-border-style: solid;
 	-fx-border-color: red;
@@ -55,7 +55,3 @@
 	-fx-background-color: #ff5959;
 }
 
-.combo-box {
-	-fx-pref-width: 150px; 
-    -fx-pref-height: 20px;
-}
