@@ -91,7 +91,16 @@ public class ScenesInitializator {
 	
 	public static Scene getInfoScene() {
 		if (infoScene == null) {
-			
+			Parent root;
+			try {
+				FXMLLoader loader = new FXMLLoader(ScenesInitializator.class.getResource("HelpPage.fxml"));
+				root = loader.load();
+				infoScene = new Scene(root);
+				infoScene.getStylesheets().add(ScenesInitializator.class.getResource("application.css").toExternalForm());
+				//infoController = loader.getController();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return infoScene;

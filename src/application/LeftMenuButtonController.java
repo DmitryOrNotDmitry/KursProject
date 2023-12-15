@@ -23,14 +23,12 @@ public class LeftMenuButtonController {
     	GridPane mainGrid = (GridPane) leftMenuInteract.getParent().getParent().getParent();
     	VBox leftMenuVBox = (VBox) mainGrid.getChildren().get(0);
     	if (isLeftMenuHidden) {
-    		System.out.println("open");
     		isLeftMenuHidden = false;
             leftMenuVBox.setMaxWidth(100);
             animateLeftMenu(mainGrid);
             leftMenuVBox.setVisible(true);
             leftMenuVBox.setManaged(true);
         } else {
-        	System.out.println("close");
         	isLeftMenuHidden = true;
         	leftMenuVBox.setMinWidth(0);
             animateLeftMenu(mainGrid);
@@ -41,8 +39,8 @@ public class LeftMenuButtonController {
     
 	@FXML
     private void initialize() {
-    	System.out.println("leftMenuInteract");
-    }
+
+	}
 	
 	private void animateLeftMenu(GridPane mainGrid) {
 		ColumnConstraints column = mainGrid.getColumnConstraints().get(0);

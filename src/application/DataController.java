@@ -48,7 +48,6 @@ public class DataController {
 
     @FXML
     private void initialize() {
-    	System.out.println("dataTableAdapter init");
     	dataTableAdapter = DataTableAdapter.getInstance();
     	this.fillTableNames();
     }

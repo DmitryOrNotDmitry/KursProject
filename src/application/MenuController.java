@@ -24,7 +24,7 @@ public class MenuController {
 
     @FXML
     private void initialize() {
-    	System.out.println("menu");
+    	
     }
     
     @FXML
@@ -63,7 +63,12 @@ public class MenuController {
 
     @FXML
     void showHelp(ActionEvent event) {
-    	
+    	Scene currentScene = (Scene) help.getScene();
+		Scene helpScene = ScenesInitializator.getInfoScene();
+		if (currentScene != helpScene) {
+			Stage curStage = (Stage) currentScene.getWindow();
+			attachSceneToStage(curStage, helpScene);
+		}
     }
     
     public static void attachSceneToStage(Stage stage, Scene scene) {
