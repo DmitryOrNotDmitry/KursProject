@@ -56,7 +56,7 @@
                      <children>
                         <AnchorPane prefHeight="100.0" prefWidth="200.0" fx:id="xAxisColumnContainer">
                            <children>
-                              <ComboBox layoutX="25.0" layoutY="43.0" onAction="#changeAxisColumn" prefWidth="150.0" fx:id="xAxisColumn" />
+                              <ComboBox layoutX="25.0" layoutY="43.0" onAction="#changeAxisColumn" prefHeight="10.0" prefWidth="150.0" fx:id="xAxisColumn" />
                               <Label layoutX="52.0" layoutY="25.0" text="Столбец по оси x" />
                            </children>
                         </AnchorPane>
@@ -69,7 +69,7 @@
                         <AnchorPane fx:id="colorChooserContainer" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Label layoutX="52.0" layoutY="25.0" text="Цвет диаграммы" />
-                              <ColorPicker fx:id="colorChooser" layoutX="36.0" layoutY="42.0" onAction="#changeColor">
+                              <ColorPicker fx:id="colorChooser" layoutX="24.0" layoutY="42.0" onAction="#changeColor" prefHeight="36.0" prefWidth="150.0">
                                  <value>
                                     <Color red="1.0" />
                                  </value>

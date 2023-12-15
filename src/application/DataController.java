@@ -11,11 +11,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ListView.EditEvent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -40,6 +42,9 @@ public class DataController {
     @FXML
     private GridPane mainGrid;
     
+    @FXML
+    private Button removeTable;
+
 
     @FXML
     private void initialize() {
@@ -65,6 +70,10 @@ public class DataController {
     @FXML
     void addDataTable(ActionEvent event) {
     	DataTable dataTable = chooseFileAndLoadDataTable();
+    	
+    	if (dataTable == null) {
+    		return;
+    	}
     	
     	fillTable(dataTable);
     	
@@ -100,6 +109,16 @@ public class DataController {
     
     public void loadDataTable(String name) {
     	DataTable dataTable = dataTableAdapter.getDataTable(name);
+    	
+    	if (!dataTable.getFile().exists()) {
+    		Alert alert = new Alert(AlertType.ERROR);
+    		alert.setTitle("Ошибка");
+    		alert.setContentText("Файл '" + dataTable.getFile().getName() + "' не найден\nПолный путь - '" + dataTable.getFile().getAbsolutePath() + "'");
+    		alert.setResizable(true);
+    		alert.show();
+    		return;
+    	}
+    	
 		fillTable(dataTable);
     }
     
@@ -143,5 +162,11 @@ public class DataController {
     	
     }
     
+    @FXML
+    void removeDataTable(ActionEvent event) {
+    	if (selectedDataTableName != null) {
+    		dataTableAdapter.removeDataTable(selectedDataTableName);
+    	}
+    }
 
 }
