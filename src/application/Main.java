@@ -25,6 +25,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
 
@@ -44,7 +45,7 @@ public class Main extends Application {
 			this.initPredStage(predStage, predScene);
 			
 			
-			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0.2), event -> {
+			Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), event -> {
 				predStage.close();
 				this.initMainStage(primaryStage, mainScene);
 	        }));
@@ -53,6 +54,7 @@ public class Main extends Application {
 			primaryStage.setOnCloseRequest(event -> {
 				try {
 					handleCloseEvent();
+					System.exit(0);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -99,13 +101,15 @@ public class Main extends Application {
 	}
 	
 	public void initMainStage(Stage stage, Scene scene) {
-		stage.setTitle("Main stage");
+		stage.getIcons().add(new Image("/images/icon.png"));
+		stage.setTitle("DiagramMaker");
 		stage.setMaximized(true);
 		stage.setScene(scene);
 		stage.show();		
 	}
 	
 	public void initPredStage(Stage stage, Scene scene) {
+		stage.getIcons().add(new Image("/images/icon.png"));
 		stage.setScene(scene);
 		stage.initStyle(StageStyle.UNDECORATED);
 		Screen screen = Screen.getPrimary();
